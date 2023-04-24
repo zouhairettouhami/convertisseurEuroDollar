@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.card-container {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+.table-container {
+  width: 100%;
+  max-width: 800px;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-icon {
+  font-size: 24px;
+  vertical-align: middle;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+

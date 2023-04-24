@@ -1,0 +1,56 @@
+<div class="container">
+  <div>
+    <mat-card class="card-container">
+      <h1>Taux de change EUR / USD</h1>
+      <p>Taux actuel: {{(exchangeRate | async)?.toFixed(2) }}
+        <mat-icon *ngIf="exchangeRateTrend === 'up'" style="color: green">trending_up</mat-icon>
+        <mat-icon *ngIf="exchangeRateTrend === 'down'" style="color: red">trending_down</mat-icon>
+      </p>
+
+      <mat-form-field appearance="fill">
+        <mat-label>{{ isEurToUsd ? 'Montant (EUR)' : 'Montant (USD)' }}</mat-label>
+        <input matInput type="number" [formControl]="amountInput" />
+        <span matSuffix>{{ isEurToUsd ? '€' : '$' }}</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Taux fixe</mat-label>
+        <input matInput type="number" [formControl]="fixedRateInput" />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="toggleCurrency()">
+        {{ isEurToUsd ? 'EUR -> USD' : 'USD -> EUR' }}
+      </button>
+
+      <p>Montant converti: {{ convertedAmount$ | async | currency: (isEurToUsd ? 'USD' : 'EUR') : 'symbol' }}</p>
+      <p *ngIf="fixedRateUsed">Taux fixe utilisé</p>
+      <p *ngIf="!fixedRateUsed">Taux fixe non utilisé</p>
+    </mat-card>
+  </div>
+  <div class="table-container">
+    <mat-table [dataSource]="conversions" class="mat-elevation-z8">
+      <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+        <mat-cell *matCellDef="let conversion">{{ conversion.date | date: 'short' }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="amount">
+        <mat-header-cell *matHeaderCellDef>Montant</mat-header-cell>
+        <mat-cell *matCellDef="let conversion">{{ conversion.amount | number: '1.2-2' }} {{ conversion.from }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="rate">
+        <mat-header-cell *matHeaderCellDef>Taux</mat-header-cell>
+        <mat-cell *matCellDef="let conversion">{{ conversion.rate | number: '1.2-2' }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="result">
+        <mat-header-cell *matHeaderCellDef>Résultat</mat-header-cell>
+        <mat-cell *matCellDef="let conversion">{{ conversion.result | number: '1.2-2' }} {{ conversion.to }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="['date', 'amount', 'rate', 'result']"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: ['date', 'amount', 'rate', 'result']"></mat-row>
+    </mat-table>
+  </div>
+</div>
